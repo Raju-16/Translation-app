@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<style>
+    #container {
+        display: flex;
+        /* border: 1px solid red; */
+    }
+
+    #input-section,
+    #output-section {
+        flex: 1;
+        border: 1px solid black;
+        margin: 5%;
+    }
+
+    #input-text {
+        width: 90%;
+        height: 90%;
+
+    }
+
+    h4 {
+        margin: 0px;
+    }
+</style>
+
+<body>
+    <div id="container">
+        <div id="input-section">
+            <h4>Input Section</h4>
+            <!--Create button that will run translate text function, give id "translate-btn"-->
+            <button onclick="translater()" id="translate-btn">Translate</button>
+            <!--Create input that will accept text to be translated, give id "input-text"-->
+            <textarea id="input-text" cols="30" rows="10"></textarea>
+        </div>
+        <div id="output-section">
+            <p id="translated-text">
+                <!--Show translated text here-->
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+
+    async function translater() {
+
+        try {
+
+            let input = document.querySelector("#input-text").value;
+
+            let res = await fetch("https://libretranslate.de/translate", {
+                method: "POST",
+
+                body: JSON.stringify({
+
+                    q: input,
+                    source: "en",
+                    target: "hi",
+                    format: "text",
+
+                }),
+
+
+                headers: {
+                    // accept: "application/json",
+                    // "Content-type": "application/x-ww-form-urlencoded",
+                    "Content-type": "application/json",
+                },
+            })
+
+            let data = await res.json();
+            // console.log("this is console data", data.translatedText)
+
+            document.querySelector("#translated-text").innerText = data.translatedText;
+
+
+        } 
+        catch (error) {
+            // console.log(error)
+
+        }
+
+
+
+
+    }
+
+    
+
+
+</script>
